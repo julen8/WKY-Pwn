@@ -99,8 +99,8 @@ while true; do
 			sudo iptables -t nat -A POSTROUTING -j MASQUERADE
 			# 保存iptables规则（不同系统命令不同）
 			#sudo iptables-save >/etc/iptables/rules.v4 # 对于Debian/Ubuntu
-			echo -e "\n\n\033[93m\nPPPoE Enabled \033[0m\n" | sudo tee /dev/tty1
-			sudo pppoe-server -I "$INTERFACE" -T 60 -N 1 -C PS4 -S PS4 -L 192.168.2.1 -R 192.168.2.2 -F >/dev/null 2>&1 &
+			echo -e "\n\n\033[93m\nPPPoE Enabled \033[0m\n" | sudo tee /dev/tty1 | sudo tee -a "$logfile"
+			sudo pppoe-server -I "$INTERFACE" -T 60 -N 1 -C PS4 -S PS4 -L 192.168.2.1 -R 192.168.2.2 -F
 		else
 			if [ "$SHUTDOWN" = true ]; then
 				sleep 5
