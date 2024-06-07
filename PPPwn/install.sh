@@ -1,4 +1,5 @@
 #!/bin/bash
+
 while true; do
     read -p "$(printf '\r\n\r\n\033[36mDo you want the console to connect to the internet after PPPwn? (Y|N):\033[0m ')" pppq
     case $pppq in
@@ -118,6 +119,7 @@ usepeerdns' | sudo tee /etc/ppp/pppoe-server-options
     *) echo -e '\033[31mPlease answer Y or N\033[0m' ;;
     esac
 done
+
 while true; do
     read -p "$(printf '\r\n\r\n\033[36mAre you using a usb to ethernet adapter for the console connection\r\n\r\n\033[36m(Y|N)?: \033[0m')" usbeth
     case $usbeth in
@@ -135,41 +137,6 @@ while true; do
     esac
 done
 
-while true; do
-    read -p "$(printf '\r\n\r\n\033[36mWould you like to change the firmware version being used, the default is 11.00\r\n\r\n\033[36m(Y|N)?: \033[0m')" fwset
-    case $fwset in
-    [Yy]*)
-        while true; do
-            read -p "$(printf '\033[33mEnter the firmware version [11.00 | 9.00]: \033[0m')" FWV
-            case $FWV in
-            "")
-                echo -e '\033[31mCannot be empty!\033[0m'
-                ;;
-            *)
-                if grep -q '^[0-9.]*$' <<<$FWV; then
-
-                    if [[ ! "$FWV" =~ ^("11.00"|"9.00")$ ]]; then
-                        echo -e '\033[31mThe version must be 11.00 or 9.00\033[0m'
-                    else
-                        break
-                    fi
-                else
-                    echo -e '\033[31mThe version must only contain alphanumeric characters\033[0m'
-                fi
-                ;;
-            esac
-        done
-        echo -e '\033[32mYou are using '$FWV'\033[0m'
-        break
-        ;;
-    [Nn]*)
-        echo -e '\033[35mUsing the default setting: 11.00\033[0m'
-        FWV="11.00"
-        break
-        ;;
-    *) echo -e '\033[31mPlease answer Y or N\033[0m' ;;
-    esac
-done
 ip link
 while true; do
     read -p "$(printf '\r\n\r\n\033[36mWould you like to change the WKY lan interface, the default is eth0\r\n\r\n\033[36m(Y|N)?: \033[0m')" ifset
@@ -205,6 +172,8 @@ while true; do
     *) echo -e '\033[31mPlease answer Y or N\033[0m' ;;
     esac
 done
+
+FWV="11.00"
 
 echo '#!/bin/bash
 INTERFACE="'$IFCE'"
